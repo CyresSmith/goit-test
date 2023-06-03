@@ -11,6 +11,8 @@ import { getFollowings } from 'redux/selectors';
 import Avatar from './Avatar';
 import Button from 'components/Shared/Button';
 
+import baseUrl from 'services/baseUrl';
+
 const Tweet = ({ user, setUsers, setPage, Filters }) => {
   const [User, setUser] = useState({
     _id: '',
@@ -51,9 +53,7 @@ const Tweet = ({ user, setUsers, setPage, Filters }) => {
   const patchFollow = async () => {
     try {
       const { data } = await axios.patch(
-        `http://localhost:8989/users/${User._id}/${
-          Follow ? 'unfollow' : 'follow'
-        }`
+        `${baseUrl}/${User._id}/${Follow ? 'unfollow' : 'follow'}`
       );
 
       setUser(data);
