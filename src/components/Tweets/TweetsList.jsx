@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+
+import { getFollowings } from 'redux/selectors';
 
 import { List, EmptyListMessage } from './TweetsList.styled';
 import Tweet from './Tweet';
@@ -14,9 +17,9 @@ const TweetsList = () => {
   const [Page, setPage] = useState(1);
   const [Filters, setFilters] = useState('all');
 
-  useEffect(() => {
-    const Followings = JSON.parse(localStorage.getItem('followings')) || [];
+  const Followings = useSelector(getFollowings);
 
+  useEffect(() => {
     const getUsers = async () => {
       try {
         const { data } = await axios({
@@ -34,7 +37,7 @@ const TweetsList = () => {
     };
 
     getUsers();
-  }, [Filters, Page]);
+  }, [Filters, Followings, Page]);
 
   const loadMore = () => {
     if (Page === TotalPages) {
@@ -53,7 +56,13 @@ const TweetsList = () => {
       {Users.length > 0 && (
         <List noPadding={Page === TotalPages}>
           {Users.map(user => (
-            <Tweet key={user?._id} user={user} />
+            <Tweet
+              key={user?._id}
+              user={user}
+              setUsers={setUsers}
+              setPage={setPage}
+              Filters={Filters}
+            />
           ))}
         </List>
       )}

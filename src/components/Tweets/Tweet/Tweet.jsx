@@ -3,10 +3,15 @@ import { useState, useEffect } from 'react';
 
 import { TweetBox, GoIt, ImageBox, Delimiter, InfoBox } from './Tweet.styled';
 
+import { useSelector, useDispatch } from 'react-redux';
+
+import { addFollowing, removeFollowing } from 'redux/followingsSlice';
+import { getFollowings } from 'redux/selectors';
+
 import Avatar from './Avatar';
 import Button from 'components/Shared/Button';
 
-const Tweet = ({ user }) => {
+const Tweet = ({ user, setUsers, setPage, Filters }) => {
   const [User, setUser] = useState({
     _id: '',
     name: '',
@@ -14,11 +19,31 @@ const Tweet = ({ user }) => {
     followers: '',
     avatar: '',
   });
-
   const [Follow, setFollow] = useState(false);
+
+  const Followings = useSelector(getFollowings);
+  const dispatch = useDispatch();
 
   const followHandle = () => {
     setFollow(prev => !prev);
+
+    if (!Follow) {
+      if (Filters !== 'all') {
+        setUsers([]);
+        setPage(1);
+      }
+
+      dispatch(addFollowing(User._id));
+    }
+
+    if (Follow) {
+      if (Filters !== 'all') {
+        setUsers([]);
+        setPage(1);
+      }
+
+      dispatch(removeFollowing(User._id));
+    }
 
     patchFollow();
   };
@@ -44,26 +69,10 @@ const Tweet = ({ user }) => {
   }, [user]);
 
   useEffect(() => {
-    const Followings = JSON.parse(localStorage.getItem('followings')) || [];
-
     if (Followings.includes(User._id)) {
       setFollow(true);
     }
-  }, [User]);
-
-  useEffect(() => {
-    const Followings = JSON.parse(localStorage.getItem('followings')) || [];
-
-    if (Follow) {
-      Followings.push(User._id);
-      localStorage.setItem('followings', JSON.stringify(Followings));
-    }
-
-    if (!Follow) {
-      const newFollowings = Followings.filter(id => id !== User._id);
-      localStorage.setItem('followings', JSON.stringify(newFollowings));
-    }
-  }, [Follow, User._id]);
+  }, [Followings, User]);
 
   return (
     <TweetBox>
