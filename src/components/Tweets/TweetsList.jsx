@@ -9,7 +9,7 @@ import Tweet from './Tweet';
 import Button from 'components/Shared/Button';
 import ActionsPanel from './ActionsPanel';
 
-const baseUrl = 'http://localhost:8989/users';
+import baseUrl from 'services/baseUrl';
 
 const TweetsList = () => {
   const [Users, setUsers] = useState([]);
