@@ -4,6 +4,6 @@ import jsconfigPaths from 'vite-jsconfig-paths';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/DeliveryApp',
+  base: '/goit-test',
   plugins: [react(), jsconfigPaths()],
 });

@@ -29,21 +29,14 @@ const Tweet = ({ user, setUsers, setPage, Filters }) => {
   const followHandle = () => {
     setFollow(prev => !prev);
 
-    if (!Follow) {
-      if (Filters !== 'all') {
-        setUsers([]);
-        setPage(1);
-      }
+    setUsers([]);
+    setPage(1);
 
+    if (!Follow) {
       dispatch(addFollowing(User._id));
     }
 
     if (Follow) {
-      if (Filters !== 'all') {
-        setUsers([]);
-        setPage(1);
-      }
-
       dispatch(removeFollowing(User._id));
     }
 
