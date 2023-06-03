@@ -1,16 +1,67 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
+import { List, EmptyListMessage } from './TweetsList.styled';
 import Tweet from './Tweet';
+import Button from 'components/Shared/Button';
+import ActionsPanel from './ActionsPanel';
 
-import users from '../../../users.json';
-
-import { List } from './TweetsList.styled';
+const baseUrl = 'http://localhost:8989/users';
 
 const TweetsList = () => {
+  const [Users, setUsers] = useState([]);
+  const [TotalPages, setTotalPages] = useState(null);
+  const [Page, setPage] = useState(1);
+  const [Filters, setFilters] = useState('all');
+
+  useEffect(() => {
+    const Followings = JSON.parse(localStorage.getItem('followings')) || [];
+
+    const getUsers = async () => {
+      try {
+        const { data } = await axios({
+          url: baseUrl,
+          method: 'POST',
+          data: Followings,
+          params: { page: Page, type: Filters },
+        });
+
+        setTotalPages(data.totalPages);
+        setUsers(prev => [...prev, ...data.users]);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    getUsers();
+  }, [Filters, Page]);
+
+  const loadMore = () => {
+    if (Page === TotalPages) {
+      return;
+    }
+    setPage(prev => (prev += 1));
+  };
+
   return (
-    <List>
-      {users.map(user => (
-        <Tweet key={user._id} user={user} />
-      ))}
-    </List>
+    <>
+      <ActionsPanel
+        setFilters={setFilters}
+        setUsers={setUsers}
+        setPage={setPage}
+      />
+      {Users.length > 0 && (
+        <List noPadding={Page === TotalPages}>
+          {Users.map(user => (
+            <Tweet key={user?._id} user={user} />
+          ))}
+        </List>
+      )}
+      {Users.length < 1 && <EmptyListMessage>List is empty</EmptyListMessage>}
+      {Users.length > 0 && Page !== TotalPages && (
+        <Button onClick={loadMore}>Load more</Button>
+      )}
+    </>
   );
 };
 

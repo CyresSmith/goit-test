@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from 'theme';
 
 export const SectionBox = styled.section`
-  padding: ${theme.space[5]} 0;
+  padding: ${theme.space[6]} 0;
 `;
 
 export const Container = styled.div`

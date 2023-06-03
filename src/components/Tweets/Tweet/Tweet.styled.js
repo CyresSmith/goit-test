@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import img from '../../../assets/picture2 1.png';
+import GoitLogo from './GoIT-logo';
 
 export const TweetBox = styled.li`
   position: relative;
@@ -24,7 +25,7 @@ export const ImageBox = styled.div`
   background-position: 50% 50%;
 `;
 
-export const LogoBox = styled.div`
+export const GoIt = styled(GoitLogo)`
   position: absolute;
   top: 20px;
   left: 20px;
