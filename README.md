@@ -11,6 +11,8 @@ and does not allow registration for a free project!
 The backend part is hosted on render.com -
 https://goit-test-backend.onrender.com.
 
+Link to backend part - https://github.com/CyresSmith/goit-test-backend
+
 Vite is used for building the project.
 
 To run the project, use the command "yarn dev".
