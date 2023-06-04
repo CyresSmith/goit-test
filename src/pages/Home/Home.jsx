@@ -1,12 +1,12 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 import { getFollowings } from 'redux/selectors';
 import baseUrl from 'services/baseUrl';
 
 import Section from 'components/Shared/Section';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { HomeInfo } from 'components/Home/Home.styled';
 
 const Home = () => {
   const Followings = useSelector(getFollowings);
@@ -41,8 +41,9 @@ const Home = () => {
 
   return (
     <Section>
-      <p>We have {Users.length} users! </p>
-      <p>Followed {Followed.length} users!</p>
+      <HomeInfo>We have {Users.length} users! </HomeInfo>
+      <HomeInfo>Followed {Followed.length} users!</HomeInfo>
+      <HomeInfo>Users for follow {Users.length - Followed.length}!</HomeInfo>
     </Section>
   );
 };
