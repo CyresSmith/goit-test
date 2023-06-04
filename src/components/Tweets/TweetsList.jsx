@@ -37,7 +37,7 @@ const TweetsList = () => {
     };
 
     getUsers();
-  }, [Filters, Followings, Page]);
+  }, [Filters, Page]);
 
   const loadMore = () => {
     if (Page === TotalPages) {
@@ -60,6 +60,7 @@ const TweetsList = () => {
               key={user?._id}
               user={user}
               setUsers={setUsers}
+              Page={Page}
               setPage={setPage}
               Filters={Filters}
             />

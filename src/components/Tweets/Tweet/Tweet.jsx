@@ -13,7 +13,7 @@ import Button from 'components/Shared/Button';
 
 import baseUrl from 'services/baseUrl';
 
-const Tweet = ({ user, setUsers, setPage, Filters }) => {
+const Tweet = ({ user, setUsers, Page, setPage, Filters }) => {
   const [User, setUser] = useState({
     _id: '',
     name: '',
@@ -29,15 +29,20 @@ const Tweet = ({ user, setUsers, setPage, Filters }) => {
   const followHandle = () => {
     setFollow(prev => !prev);
 
-    setUsers([]);
-    setPage(1);
-
     if (!Follow) {
       dispatch(addFollowing(User._id));
+
+      if (Filters === 'follow') {
+        setUsers(prev => prev.filter(item => item._id !== user._id));
+      }
     }
 
     if (Follow) {
       dispatch(removeFollowing(User._id));
+
+      if (Filters === 'followings') {
+        setUsers(prev => prev.filter(item => item._id !== user._id));
+      }
     }
 
     patchFollow();
